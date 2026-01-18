@@ -1,0 +1,46 @@
+[
+    {
+        "id": "1",
+        "name": "Super Strong Bucket 20L",
+        "slug": "super-strong-bucket-20l",
+        "type": "Bucket",
+        "series": "Diamond",
+        "size": "20L",
+        "color": [
+            "Red",
+            "Blue",
+            "Green"
+        ],
+        "features": [
+            "Unbreakable",
+            "Easy Grip Handle"
+        ],
+        "description": "High quality plastic bucket suitable for bathroom and kitchen use.",
+        "images": [],
+        "isTrending": true,
+        "isNew": false,
+        "category": "Household",
+        "createdAt": "2024-01-01T10:00:00Z"
+    },
+    {
+        "id": "2",
+        "name": "Premium Mug 1.5L",
+        "slug": "premium-mug-1-5l",
+        "type": "Mug",
+        "series": "Gold",
+        "size": "1.5L",
+        "color": [
+            "Pink",
+            "Cyan"
+        ],
+        "features": [
+            "Elegant Design"
+        ],
+        "description": "Perfect mug for daily use.",
+        "images": [],
+        "isTrending": false,
+        "isNew": true,
+        "category": "Bathroom",
+        "createdAt": "2024-01-02T10:00:00Z"
+    }
+]

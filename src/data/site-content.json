@@ -1,0 +1,42 @@
+{
+    "banners": [
+        {
+            "id": "1",
+            "imageUrl": "https://placehold.co/1200x400?text=Welcome+to+Bagmati+Plastic",
+            "link": "/products",
+            "title": "Welcome to Bagmati Plastic"
+        },
+        {
+            "id": "2",
+            "imageUrl": "https://placehold.co/1200x400?text=New+Diamond+Series",
+            "link": "/products?series=Diamond",
+            "title": "New Diamond Series"
+        }
+    ],
+    "featuredGrid": [
+        {
+            "id": "1",
+            "imageUrl": "https://placehold.co/400x400?text=Bathroom+Items",
+            "title": "Bathroom Items",
+            "link": "/products?category=Bathroom"
+        },
+        {
+            "id": "2",
+            "imageUrl": "https://placehold.co/400x400?text=Kitchen+Essentials",
+            "title": "Kitchen Essentials",
+            "link": "/products?category=Kitchen"
+        },
+        {
+            "id": "3",
+            "imageUrl": "https://placehold.co/400x400?text=Dustbins",
+            "title": "Dustbins",
+            "link": "/products?type=Dustbin"
+        },
+        {
+            "id": "4",
+            "imageUrl": "https://placehold.co/400x400?text=Stools",
+            "title": "Stools",
+            "link": "/products?type=Stool"
+        }
+    ]
+}

@@ -1,0 +1,139 @@
+.section {
+    padding: 4rem 1rem;
+}
+
+.heading {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+    color: var(--foreground);
+    border-left: 5px solid var(--primary);
+    padding-left: 1rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 2 Columns on Mobile */
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: 1.5fr 1fr 1fr;
+        grid-template-rows: repeat(2, 300px);
+        gap: 1.5rem;
+    }
+
+    .item:first-child {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+    }
+}
+
+.item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+/* On mobile, set a min-height so items aren't collapsed if empty */
+@media (max-width: 767px) {
+    .item {
+        aspect-ratio: 1/1;
+        /* Square for smaller items */
+    }
+
+    .item:first-child {
+        grid-column: 1 / -1;
+        /* Span full width */
+        aspect-ratio: 16/9;
+        /* Cinematic for featured */
+    }
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.item:hover .image {
+    transform: scale(1.05);
+}
+
+/* Default Overlay for standard items */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 50%);
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+    opacity: 1;
+    /* Always visible for text legibility like reference */
+    transition: background 0.3s ease;
+}
+
+.title {
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Special Styles for First Item (Featured) */
+.item:first-child .overlay {
+    background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%), linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%);
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.item:first-child .title {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+}
+
+.subtitle {
+    display: none;
+}
+
+.item:first-child .subtitle {
+    display: block;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    max-width: 80%;
+}
+
+.ctaButton {
+    display: none;
+}
+
+.item:first-child .ctaButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #FF4081;
+    /* Example Pink/Red color from image */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.item:first-child .ctaButton:hover {
+    background: #F50057;
+}

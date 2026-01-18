@@ -1,0 +1,85 @@
+.footer {
+    background-color: var(--footer-bg);
+    padding: 4rem 1rem 2rem;
+    margin-top: auto;
+    border-top: 1px solid var(--border-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.topSection {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+    .topSection {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.brandColumn {
+    flex: 1;
+    max-width: 300px;
+}
+
+.brandLogo {
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.brandDesc {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.productsGrid {
+    flex: 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+}
+
+.column h3 {
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(252, 26, 79, 0.1);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.linkList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.linkList a {
+    color: #666;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.linkList a:hover {
+    color: var(--primary);
+    padding-left: 5px;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid #e0dbdb;
+    color: #777;
+    font-size: 0.9rem;
+}

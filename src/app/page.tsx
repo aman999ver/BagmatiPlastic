@@ -1,66 +1,46 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import BannerCarousel from "@/components/home/BannerCarousel";
+import FeaturedGrid from "@/components/home/FeaturedGrid";
+import CategoryGrid from "@/components/home/CategoryGrid";
+import ProductCard from "@/components/ui/ProductCard";
+import { getTrendingProducts, getNewProducts } from "@/lib/products";
 
-export default function Home() {
+export default async function Home() {
+  const trending = await getTrendingProducts();
+  const newProducts = await getNewProducts();
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <BannerCarousel />
+      <FeaturedGrid />
+      <CategoryGrid />
+
+      <section className="container" style={{ padding: "2rem 1rem 4rem" }}>
+        <h2 style={{ fontSize: "2rem", marginBottom: "2rem", color: "var(--foreground)", borderLeft: "5px solid var(--primary)", paddingLeft: "1rem" }}>
+          Trending Products
+        </h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: "2rem" }}>
+          {trending.length > 0 ? (
+            trending.map(p => <ProductCard key={p.id} product={p} />)
+          ) : (
+            <p>No trending products found.</p>
+          )}
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <section style={{ background: "#f9f9f9", padding: "4rem 1rem" }}>
+        <div className="container">
+          <h2 style={{ fontSize: "2rem", marginBottom: "2rem", color: "var(--foreground)", borderLeft: "5px solid var(--primary)", paddingLeft: "1rem" }}>
+            New Arrivals
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: "2rem" }}>
+            {newProducts.length > 0 ? (
+              newProducts.map(p => <ProductCard key={p.id} product={p} />)
+            ) : (
+              <p>No new products found.</p>
+            )}
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+    </>
   );
 }
