@@ -10,8 +10,10 @@ export async function GET(request: Request) {
     const isTrending = searchParams.get("isTrending");
     const isNew = searchParams.get("isNew");
     const brand = searchParams.get("brand");
+    const id = searchParams.get("id");
 
     let query: any = {};
+    if (id) query._id = id;
     if (category && category !== "all") query.category = category;
     if (type) query.type = type;
     if (isTrending === "true") query.isTrending = true;
@@ -41,6 +43,30 @@ export async function POST(request: Request) {
         return NextResponse.json({ ...product.toObject(), id: product._id.toString() }, { status: 201 });
     } catch (error: any) {
         console.error("Product Save Error:", error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+}
+
+export async function PUT(request: Request) {
+    await dbConnect();
+    try {
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get("id");
+        const body = await request.json();
+
+        if (!id) return NextResponse.json({ error: "Product ID required" }, { status: 400 });
+
+        const product = await Product.findByIdAndUpdate(
+            id,
+            { ...body, isNewItem: body.isNew },
+            { new: true }
+        );
+
+        if (!product) return NextResponse.json({ error: "Product not found" }, { status: 404 });
+
+        return NextResponse.json({ ...product.toObject(), id: product._id.toString() });
+    } catch (error: any) {
+        console.error("Product Update Error:", error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }

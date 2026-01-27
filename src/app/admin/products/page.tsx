@@ -84,7 +84,9 @@ export default function AdminProductsPage() {
                                 <td style={{ padding: "1rem", color: "#666" }}>{p.type}</td>
                                 <td style={{ padding: "1rem" }}>
                                     <div style={{ display: "flex", gap: "0.5rem" }}>
-                                        {/* Edit link could go here */}
+                                        <Link href={`/admin/edit-product/${p.id}`} style={{ padding: "6px", border: "1px solid #BBDEFB", background: "#E3F2FD", borderRadius: "4px", color: "#1976D2", cursor: "pointer", display: "flex", alignItems: "center" }}>
+                                            <Edit size={16} />
+                                        </Link>
                                         <button onClick={() => handleDelete(p.id)} style={{ padding: "6px", border: "1px solid #FFCDD2", background: "#FFEBEE", borderRadius: "4px", color: "#D32F2F", cursor: "pointer" }}>
                                             <Trash2 size={16} />
                                         </button>

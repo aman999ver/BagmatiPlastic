@@ -1,24 +1,7 @@
 import { NextResponse } from "next/server";
-import { v2 as cloudinary } from "cloudinary";
-
-// Configure Cloudinary
-const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-const apiKey = process.env.CLOUDINARY_API_KEY;
-const apiSecret = process.env.CLOUDINARY_API_SECRET;
-
-if (!cloudName || !apiKey || !apiSecret) {
-    console.error("Cloudinary Env Vars Missing:", {
-        cloudName: !!cloudName,
-        apiKey: !!apiKey,
-        apiSecret: !!apiSecret
-    });
-}
-
-cloudinary.config({
-    cloud_name: cloudName,
-    api_key: apiKey,
-    api_secret: apiSecret
-});
+import path from "path";
+import { writeFile, mkdir } from "fs/promises";
+import sharp from "sharp";
 
 export async function POST(request: Request) {
     try {
@@ -31,42 +14,43 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "No file received." }, { status: 400 });
         }
 
+        const buffer = Buffer.from(await file.arrayBuffer());
+
         // Determine folder based on type
-        let folder = "bagmati/uploads"; // Base folder
+        let folderPath = "uploads"; // Base folder in public
         if (type === "banner") {
-            folder = "bagmati/banners";
+            folderPath = "uploads/banners";
         } else if (type === "grid" || type === "category") {
-            folder = "bagmati/categories";
+            folderPath = "uploads/categories";
         } else if (type === "product") {
             if (productName) {
                 const sanitized = productName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                folder = `bagmati/products/${sanitized}`;
+                folderPath = `uploads/products/${sanitized}`;
             } else {
-                folder = "bagmati/products/general";
+                folderPath = "uploads/products/general";
             }
         }
 
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
+        // Create directory if it doesn't exist
+        const publicDir = path.join(process.cwd(), "public");
+        const fullUploadDir = path.join(publicDir, folderPath);
 
-        const result = await new Promise<any>((resolve, reject) => {
-            cloudinary.uploader.upload_stream(
-                {
-                    folder: folder,
-                    resource_type: "auto", // Works for images and raw files
-                },
-                (error, result) => {
-                    if (error) {
-                        console.error("Cloudinary Upload Error:", error);
-                        reject(error);
-                    } else {
-                        resolve(result);
-                    }
-                }
-            ).end(buffer);
-        });
+        await mkdir(fullUploadDir, { recursive: true });
 
-        return NextResponse.json({ success: true, url: result.secure_url });
+        // Generate unique filename
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const filename = `image-${uniqueSuffix}.webp`;
+        const filepath = path.join(fullUploadDir, filename);
+
+        // Convert to WebP using Sharp
+        await sharp(buffer)
+            .webp({ quality: 80 })
+            .toFile(filepath);
+
+        // Return the relative URL
+        const fileUrl = `/${folderPath}/${filename}`;
+
+        return NextResponse.json({ success: true, url: fileUrl });
 
     } catch (error: any) {
         console.error("Upload API Error:", error);

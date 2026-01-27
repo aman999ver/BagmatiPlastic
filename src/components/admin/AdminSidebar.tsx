@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
-import { LayoutDashboard, ShoppingBag, PlusCircle, Image as ImageIcon, Grid, LogOut, Layers, Tag } from "lucide-react";
+import { LayoutDashboard, ShoppingBag, PlusCircle, Image as ImageIcon, Grid, LogOut, Layers, Tag, FileText, Star, Award, Mail } from "lucide-react";
 import styles from "./AdminLayout.module.css";
 
 export default function AdminSidebar({ children }: { children: React.ReactNode }) {
@@ -21,6 +21,11 @@ export default function AdminSidebar({ children }: { children: React.ReactNode }
         { name: "Products", href: "/admin/products", icon: ShoppingBag }, // Replaced "Add Product"
         { name: "Categories", href: "/admin/categories", icon: Layers },
         { name: "Series", href: "/admin/series", icon: Tag },
+        { name: "Brands", href: "/admin/brands", icon: Star },
+        { name: "Blogs", href: "/admin/blogs", icon: FileText },
+        { name: "Factory", href: "/admin/factory", icon: ImageIcon },
+        { name: "Certificates", href: "/admin/certificates", icon: Award },
+        { name: "Inquiries", href: "/admin/inquiries", icon: Mail },
         { name: "Banners", href: "/admin/banners", icon: ImageIcon },
         { name: "Featured Grid", href: "/admin/featured", icon: Grid },
     ];

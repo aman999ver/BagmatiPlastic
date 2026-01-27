@@ -55,12 +55,23 @@ export default function Footer() {
                             </ul>
                         </div>
 
-                        <div className={styles.column}>
-                            <h3>Contact</h3>
+                        <div className={styles.column} style={{ minWidth: "250px" }}>
+                            <h3>Contact Us</h3>
                             <ul className={styles.linkList}>
-                                <li>+977-1-4XXXXXX</li>
-                                <li>info@bagmati.com</li>
-                                <li>Kathmandu, Nepal</li>
+                                <li style={{ marginBottom: "1rem" }}>
+                                    <strong>Corporate Office:</strong><br />
+                                    4th Floor Four Square Building,<br />
+                                    Naxal, Kathmandu, Bagmati, Nepal<br />
+                                    +977-9801121153<br />
+                                    pankajrathi13@gmail.com
+                                </li>
+                                <li>
+                                    <strong>Factory:</strong><br />
+                                    Malaya Road, Biratnagar-13,<br />
+                                    Morang, Koshi, Nepal<br />
+                                    +977-21-435407/436082<br />
+                                    bagmatiplastic@gmail.com
+                                </li>
                             </ul>
                         </div>
                     </div>

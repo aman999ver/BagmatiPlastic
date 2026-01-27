@@ -2,6 +2,8 @@ import BannerCarousel from "@/components/home/BannerCarousel";
 import FeaturedGrid from "@/components/home/FeaturedGrid";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import ProductCard from "@/components/ui/ProductCard";
+import BlogSection from "@/components/home/BlogSection";
+import BrandSection from "@/components/home/BrandSection";
 import { getTrendingProducts, getNewProducts } from "@/lib/products";
 
 export default async function Home() {
@@ -41,6 +43,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      <BlogSection />
+      <BrandSection />
     </>
   );
 }

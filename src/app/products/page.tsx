@@ -7,22 +7,20 @@ import { Product } from "@/types/product";
 // Helper removed as we fetch directly
 // function filterProducts...
 
-export default async function ProductsPage({
-    searchParams,
-}: {
-    searchParams: { [key: string]: string | string[] | undefined };
+export default async function ProductsPage(props: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-    // Await searchParams as per Next.js 15/16 conventions if needed, but for now treating as prop
-    // Actually in newer Next.js versions searchParams might be a Promise, but assuming 14/15 style for now unless error.
+    // Await searchParams as per Next.js 15 conventions
+    const searchParams = await props.searchParams;
 
     // Convert search params to string
     const category = typeof searchParams.category === 'string' ? searchParams.category : undefined;
     const brand = typeof searchParams.brand === 'string' ? searchParams.brand : undefined;
-    // We could add series filter to `getProducts` too, but for now `getProducts` handles category/brand/color.
-    // If series is needed, update getProducts.
+    const series = typeof searchParams.series === 'string' ? searchParams.series : undefined;
+    const color = typeof searchParams.color === 'string' ? searchParams.color : undefined;
+    const sort = typeof searchParams.sort === 'string' ? searchParams.sort : undefined;
 
-    // Note: getProducts currently handles category, brand, color. Series needs to be added.
-    const filteredProducts = await getProducts({ category, brand });
+    const filteredProducts = await getProducts({ category, brand, series, color, sort });
     // Wait, getProducts handles series? No. I need to update getProducts to handle series too if I want full fidelity.
     // Let's assume series isn't critical for this step OR I update getProducts briefly.
     // For now I'll just pass category/brand.
