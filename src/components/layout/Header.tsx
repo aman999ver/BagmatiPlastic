@@ -38,8 +38,32 @@ export default function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [lastScrollY]);
 
+    const [currentLang, setCurrentLang] = useState("EN");
+
+    useEffect(() => {
+        // Check cookie to set initial state label
+        const getCookie = (name: string) => {
+            const v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+            return v ? v[2] : null;
+        };
+        const langInfo = getCookie("googtrans");
+        if (langInfo === "/en/ne") setCurrentLang("NP");
+        else setCurrentLang("EN");
+    }, []);
+
     const toggleMenu = () => setIsOpen(!isOpen);
-    const toggleLanguage = () => setLanguage(language === "en" ? "np" : "en");
+
+    const toggleLanguage = () => {
+        const newLang = currentLang === "EN" ? "NP" : "EN";
+        const cookieValue = newLang === "NP" ? "/en/ne" : "/en/en";
+
+        // Set cookie for Google Translate
+        document.cookie = `googtrans=${cookieValue}; path=/; domain=${window.location.hostname}`;
+        document.cookie = `googtrans=${cookieValue}; path=/;`; // fallback
+
+        // Reload to apply
+        window.location.reload();
+    };
 
     return (
         <header
@@ -104,7 +128,7 @@ export default function Header() {
 
                     <button aria-label="Language" onClick={toggleLanguage} style={{ display: "flex", alignItems: "center", gap: "5px", fontWeight: "bold" }}>
                         <Globe size={20} />
-                        <span>{language === "en" ? "EN" : "NP"}</span>
+                        <span>{currentLang}</span>
                     </button>
 
                     <button
