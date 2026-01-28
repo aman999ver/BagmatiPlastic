@@ -50,7 +50,7 @@ export default function BlogCardHorizontal({ blog }: BlogCardProps) {
             <style dangerouslySetInnerHTML={{
                 __html: `
                 @media (max-width: 768px) {
-                    .blog-card-horizontal { flexDirection: column !important; }
+                    .blog-card-horizontal { flex-direction: column !important; }
                     .card-image { width: 100% !important; height: 220px !important; }
                 }
             ` }} />

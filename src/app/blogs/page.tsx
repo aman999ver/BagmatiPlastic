@@ -87,7 +87,7 @@ export default async function BlogsPage(props: {
 
             <style>{`
                 @media (max-width: 900px) {
-                    .blog-layout { flexDirection: column; gap: 2rem !important; }
+                    .blog-layout { flex-direction: column; gap: 2rem !important; }
                 }
             `}</style>
         </div>
