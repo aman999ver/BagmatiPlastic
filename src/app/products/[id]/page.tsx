@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import ProductView from "@/components/products/ProductView";
 
 export async function generateStaticParams() {
-    const products = await getProducts();
+    const { products } = await getProducts({ limit: 100 }); // Increase limit for SSG
     return products.map((product) => ({
         id: product.id,
     }));
