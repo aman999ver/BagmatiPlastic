@@ -8,7 +8,7 @@ interface ImageUploadProps {
     value: string;
     onChange: (url: string) => void;
     disabled?: boolean;
-    uploadType?: "banner" | "grid" | "product" | "category";
+    uploadType?: "banner" | "grid" | "product" | "category" | "brand";
     productName?: string;
 }
 
