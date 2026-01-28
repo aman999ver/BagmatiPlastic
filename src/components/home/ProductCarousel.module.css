@@ -1,0 +1,84 @@
+.container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 1rem 0;
+    /* Mask for fade effect on edges */
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    /* Space for scrollbar if visible, or to avoid clip */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+    cursor: grab;
+    width: 100%;
+}
+
+.track::-webkit-scrollbar {
+    display: none;
+}
+
+.track:active {
+    cursor: grabbing;
+}
+
+.cardWrapper {
+    flex: 0 0 auto;
+    width: 280px;
+    /* Fixed width for consistency */
+}
+
+.navBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+    opacity: 0;
+    /* Hidden by default, show on hover of container */
+}
+
+.navBtn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.prevBtn {
+    left: 10px;
+}
+
+.nextBtn {
+    right: 10px;
+}
+
+.container:hover .navBtn {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .navBtn {
+        opacity: 1;
+        /* Always show on mobile? Or maybe hide if touch is preferred? Let's show. */
+        width: 36px;
+        height: 36px;
+    }
+}

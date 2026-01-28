@@ -26,7 +26,7 @@ export default async function BlogSection() {
                 </Link>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "2rem" }}>
+            <div className="blog-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "2rem" }}>
                 {blogs.map((blog) => (
                     <Link key={blog.id} href={`/blogs/${blog.slug}`} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
                         <div style={{ border: "1px solid #eee", borderRadius: "12px", overflow: "hidden", transition: "transform 0.2s" }} className="blog-card">
@@ -59,8 +59,28 @@ export default async function BlogSection() {
                     </Link>
                 ))}
             </div>
-            {/* Simple CSS for hover effect */}
-            <style dangerouslySetInnerHTML={{ __html: `.blog-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }` }} />
+            {/* Simple CSS for hover effect and mobile scroll */}
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                .blog-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+                
+                @media (max-width: 768px) {
+                    .blog-grid {
+                        display: flex !important;
+                        overflow-x: auto;
+                        padding-bottom: 2rem;
+                        scroll-snap-type: x mandatory;
+                        gap: 1rem !important;
+                    }
+                    .blog-grid > a {
+                        flex: 0 0 280px; /* Fixed width cards */
+                        scroll-snap-align: center;
+                    }
+                    /* Hide scrollbar */
+                    .blog-grid::-webkit-scrollbar { display: none; }
+                    .blog-grid { -ms-overflow-style: none; scrollbar-width: none; }
+                }
+            ` }} />
         </section>
     );
 }

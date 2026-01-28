@@ -66,52 +66,105 @@ export default function AdminFactoryPage() {
     };
 
     return (
-        <div style={{ display: "flex" }}>
-            <AdminSidebar>
-                <div style={{ padding: "2rem" }}>
-                    <h1 style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "2rem" }}>Factory Images</h1>
+        <AdminSidebar>
+            <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+                <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
+                    <div>
+                        <h1 style={{ fontSize: "1.8rem", fontWeight: "bold", color: "#1a1a1a" }}>Factory Gallery</h1>
+                        <p style={{ color: "#666", marginTop: "0.5rem" }}>Manage images displayed in the factory showcase.</p>
+                    </div>
+                    <label style={{
+                        display: "flex", alignItems: "center", gap: "0.5rem",
+                        background: "var(--primary)", color: "white",
+                        padding: "0.8rem 1.5rem", borderRadius: "8px",
+                        fontWeight: "500", cursor: "pointer", transition: "all 0.2s",
+                        boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
+                    }}>
+                        <Plus size={20} />
+                        {uploading ? "Uploading..." : "Add New Image"}
+                        <input type="file" hidden onChange={handleUpload} disabled={uploading} accept="image/*" />
+                    </label>
+                </header>
 
-                    {/* Upload Section */}
-                    <div style={{ background: "white", padding: "1.5rem", borderRadius: "12px", boxShadow: "0 2px 5px rgba(0,0,0,0.05)", marginBottom: "2rem", display: "flex", gap: "1rem", alignItems: "flex-end" }}>
-                        <div style={{ flex: 1 }}>
-                            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "500" }}>Add New Image</label>
-                            <div style={{ display: "flex", gap: "1rem" }}>
-                                <input
-                                    type="text"
-                                    placeholder="Caption (Optional)"
-                                    value={caption}
-                                    onChange={(e) => setCaption(e.target.value)}
-                                    style={{ padding: "0.5rem", border: "1px solid #ddd", borderRadius: "4px", flex: 1 }}
-                                />
-                                <label style={{ cursor: "pointer", background: "#333", color: "white", padding: "0.5rem 1rem", borderRadius: "4px", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                                    <Upload size={18} />
-                                    {uploading ? "Uploading..." : "Upload Image"}
-                                    <input type="file" hidden onChange={handleUpload} disabled={uploading} accept="image/*" />
-                                </label>
-                            </div>
+                {/* Upload Context Caption - Only show if user selects file? No, maybe simple input near header or separate modal?
+                    Let's keep it simple: The button above triggers file select. 
+                    Wait, I removed the caption input in the header button approach. 
+                    Let's revert to a nice form area or add caption after? 
+                    Actually, for factory images, caption is optional. Let's keep the form area but make it look like a "Drop zone" or clean panel.
+                */}
+
+                <div style={{ background: "white", padding: "1.5rem", borderRadius: "12px", border: "1px dashed #e0e0e0", marginBottom: "2rem", display: "flex", alignItems: "center", gap: "1rem" }}>
+                    <div style={{ flex: 1 }}>
+                        <h3 style={{ fontSize: "1rem", fontWeight: "600", marginBottom: "0.5rem" }}>Quick Upload</h3>
+                        <div style={{ display: "flex", gap: "1rem" }}>
+                            <input
+                                type="text"
+                                placeholder="Enter caption for the next upload..."
+                                value={caption}
+                                onChange={(e) => setCaption(e.target.value)}
+                                style={{ flex: 1, padding: "0.8rem", border: "1px solid #e0e0e0", borderRadius: "8px", fontSize: "0.95rem" }}
+                            />
+                            {/* Re-using the header button logic here actually makes more sense for "Contextual" action */}
+                            <label style={{
+                                display: "flex", alignItems: "center", gap: "0.5rem",
+                                background: "#333", color: "white",
+                                padding: "0.8rem 1.5rem", borderRadius: "8px",
+                                fontWeight: "500", cursor: "pointer"
+                            }}>
+                                <Upload size={18} />
+                                <span>Select & Upload</span>
+                                <input type="file" hidden onChange={handleUpload} disabled={uploading} accept="image/*" />
+                            </label>
                         </div>
                     </div>
+                </div>
 
-                    {/* Gallery Grid */}
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "1.5rem" }}>
-                        {images.map((img) => (
-                            <div key={img._id} style={{ position: "relative", borderRadius: "8px", overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.1)", background: "white" }}>
-                                <div style={{ height: "150px", position: "relative" }}>
-                                    <img src={img.image} alt={img.caption} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                                </div>
-                                <div style={{ padding: "0.8rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                    <span style={{ fontSize: "0.9rem", color: "#666", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "150px" }}>
-                                        {img.caption || "No Caption"}
-                                    </span>
-                                    <button onClick={() => handleDelete(img._id)} style={{ color: "red", background: "none", border: "none", cursor: "pointer" }}>
-                                        <Trash2 size={18} />
+                {/* Gallery Grid */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "2rem" }}>
+                    {images.map((img) => (
+                        <div key={img._id} className="group" style={{ position: "relative", borderRadius: "12px", overflow: "hidden", boxShadow: "0 4px 20px rgba(0,0,0,0.05)", background: "white", transition: "transform 0.2s" }}>
+                            <div style={{ height: "220px", position: "relative", background: "#f5f5f5" }}>
+                                <img src={img.image} alt={img.caption} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                {/* Overlay Action */}
+                                <div style={{
+                                    position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
+                                    background: "rgba(0,0,0,0.4)", opacity: 0, transition: "opacity 0.2s",
+                                    display: "flex", alignItems: "center", justifyContent: "center"
+                                }}
+                                    className="hover-overlay"
+                                >
+                                    <button
+                                        onClick={() => handleDelete(img._id)}
+                                        style={{ background: "white", border: "none", borderRadius: "50%", padding: "10px", cursor: "pointer", color: "#d32f2f", boxShadow: "0 4px 10px rgba(0,0,0,0.2)" }}
+                                        title="Delete Image"
+                                    >
+                                        <Trash2 size={24} />
                                     </button>
                                 </div>
+                                {/* CSS for hover need style block or global/module */}
+                                <style jsx>{`
+                                    .group:hover .hover-overlay { opacity: 1 !important; }
+                                    .group:hover { transform: translateY(-5px); }
+                                `}</style>
                             </div>
-                        ))}
-                    </div>
+                            <div style={{ padding: "1rem" }}>
+                                <p style={{ fontWeight: "500", color: "#444", fontSize: "0.95rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                    {img.caption || "Untitled Image"}
+                                </p>
+                                <p style={{ fontSize: "0.8rem", color: "#999", marginTop: "0.2rem" }}>
+                                    Added {new Date(img.createdAt || Date.now()).toLocaleDateString()}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                    {images.length === 0 && (
+                        <div style={{ wordSpacing: "100%", textAlign: "center", padding: "4rem", background: "#f9f9f9", borderRadius: "12px", border: "2px dashed #e0e0e0", color: "#888" }}>
+                            <Upload size={48} style={{ opacity: 0.2, marginBottom: "1rem" }} />
+                            <p>No images yet. Upload your first factory image.</p>
+                        </div>
+                    )}
                 </div>
-            </AdminSidebar>
-        </div>
+            </div>
+        </AdminSidebar>
     );
 }

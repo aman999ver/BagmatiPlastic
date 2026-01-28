@@ -63,3 +63,25 @@
 .details span {
     display: block;
 }
+
+@media (max-width: 768px) {
+    .content {
+        padding: 0.5rem;
+        /* Reduced padding */
+    }
+
+    .title {
+        font-size: 0.9rem;
+        /* Smaller title */
+        margin-bottom: 0.25rem;
+    }
+
+    .category {
+        font-size: 0.7rem;
+    }
+
+    .details {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+}

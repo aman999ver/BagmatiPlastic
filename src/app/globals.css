@@ -30,6 +30,28 @@ a {
   text-decoration: none;
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.mobile-logo {
+  display: none !important;
+}
+
+.desktop-logo {
+  display: block !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-logo {
+    display: block !important;
+  }
+
+  .desktop-logo {
+    display: none !important;
+  }
+}
+
 button {
   cursor: pointer;
   border: none;
@@ -42,4 +64,28 @@ button {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+}
+
+@media (min-width: 769px) {
+  .product-scroll-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  .product-card-wrapper {
+    min-width: 250px;
+    scroll-snap-align: start;
+  }
 }

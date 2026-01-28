@@ -9,6 +9,7 @@ import { useLanguage } from "@/context/LanguageContext";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
@@ -46,14 +47,28 @@ export default function Header() {
         >
             <div className={styles.container}>
                 <Link href="/" className={styles.logo}>
-                    <Image
-                        src="/bagmati-logo.png"
-                        alt="Bagmati Plastic"
-                        width={150}
-                        height={50}
-                        style={{ objectFit: "contain", height: "50px", width: "auto" }}
-                        priority
-                    />
+                    {/* Desktop Logo */}
+                    <div className="desktop-logo">
+                        <Image
+                            src="/bagmati-logo.png"
+                            alt="Bagmati Plastic"
+                            width={150}
+                            height={50}
+                            style={{ objectFit: "contain", height: "50px", width: "auto" }}
+                            priority
+                        />
+                    </div>
+                    {/* Mobile Logo */}
+                    <div className="mobile-logo">
+                        <Image
+                            src="/mobilelogo.png"
+                            alt="Bagmati Plastic"
+                            width={50}
+                            height={50}
+                            style={{ objectFit: "contain", height: "40px", width: "auto" }}
+                            priority
+                        />
+                    </div>
                 </Link>
 
                 {/* Desktop Nav */}
@@ -66,9 +81,27 @@ export default function Header() {
                 </nav>
 
                 <div className={styles.actions}>
-                    <button aria-label="Search">
-                        <Search size={20} />
-                    </button>
+                    <div className={styles.searchWrapper}>
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            const form = e.target as HTMLFormElement;
+                            const input = form.elements.namedItem("search") as HTMLInputElement;
+                            if (input.value.trim()) {
+                                window.location.href = `/products?search=${encodeURIComponent(input.value.trim())}`;
+                            }
+                        }} className={`${styles.searchForm} ${isSearchOpen ? styles.open : ""}`}>
+                            <input
+                                name="search"
+                                type="text"
+                                placeholder="Search..."
+                                className={styles.searchInput}
+                            />
+                        </form>
+                        <button aria-label="Search" onClick={() => setIsSearchOpen(!isSearchOpen)}>
+                            <Search size={20} />
+                        </button>
+                    </div>
+
                     <button aria-label="Language" onClick={toggleLanguage} style={{ display: "flex", alignItems: "center", gap: "5px", fontWeight: "bold" }}>
                         <Globe size={20} />
                         <span>{language === "en" ? "EN" : "NP"}</span>
@@ -90,7 +123,7 @@ export default function Header() {
                     <Link href="/" className={styles.navLink} onClick={toggleMenu}>{t("home")}</Link>
                     <Link href="/products" className={styles.navLink} onClick={toggleMenu}>{t("products")}</Link>
                     <Link href="/about" className={styles.navLink} onClick={toggleMenu}>{t("about")}</Link>
-                    <Link href="/blog" className={styles.navLink} onClick={toggleMenu}>{t("blog")}</Link>
+                    <Link href="/blogs" className={styles.navLink} onClick={toggleMenu}>{t("blog")}</Link>
                     <Link href="/contact" className={styles.navLink} onClick={toggleMenu}>{t("contact")}</Link>
                 </nav>
             )}

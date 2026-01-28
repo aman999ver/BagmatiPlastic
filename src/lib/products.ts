@@ -7,8 +7,18 @@ const serialize = (doc: any): Product => {
     const obj = doc.toObject();
     obj.id = obj._id.toString();
     obj.isNew = obj.isNewItem; // Map backend isNewItem to frontend isNew
-    // Ensure colors is array
-    if (!obj.colors) obj.colors = [];
+
+    // Ensure colors is array and sanitize it
+    if (obj.colors && Array.isArray(obj.colors)) {
+        obj.colors = obj.colors.map((c: any) => {
+            const colorObj = { ...c };
+            if (colorObj._id) delete colorObj._id;
+            return colorObj;
+        });
+    } else {
+        obj.colors = [];
+    }
+
     delete obj._id;
     delete obj.__v;
     return obj as Product;
@@ -19,10 +29,26 @@ export async function getProducts(filters: {
     brand?: string;
     series?: string;
     color?: string; // Search in 'colors.name' or 'colors.code'
+    search?: string;
     sort?: string;
-} = {}): Promise<Product[]> {
+    page?: number;
+    limit?: number;
+} = {}): Promise<{ products: Product[]; totalPages: number; currentPage: number }> {
     await dbConnect();
     const query: any = {};
+    const page = filters.page || 1;
+    const limit = filters.limit || 6; // Default to 6 as requested
+    const skip = (page - 1) * limit;
+
+    if (filters.search) {
+        const searchRegex = new RegExp(filters.search, 'i');
+        query.$or = [
+            { name: searchRegex },
+            { category: searchRegex },
+            { series: searchRegex }
+        ];
+    }
+
     if (filters.category && filters.category !== "all") {
         const cats = filters.category.split(",").map(s => s.trim()).filter(Boolean);
         if (cats.length > 0) query.category = { $in: cats };
@@ -39,6 +65,14 @@ export async function getProducts(filters: {
         // Match color name or code in the complex object array
         const colors = filters.color.split(",").map(s => s.trim()).filter(Boolean);
         if (colors.length > 0) {
+            // If we already have an $or from search, we need to be careful.
+            // But Mongoose handles top-level properties. $or is a property.
+            // If we have search, query has $or.
+            // If we add another condition (AND), it's fine as long as it's not another $or at top level.
+            // EXCEPT if we want to search AND filter.
+            // MongoDB allows implicit AND.
+            // But if we want to combine Search ORs with other ANDs, top level structure is { $or: [...], category: ... } which works as AND.
+
             query.colors = {
                 $elemMatch: {
                     $or: [
@@ -54,8 +88,17 @@ export async function getProducts(filters: {
     if (filters.sort === "asc") sortOption = { name: 1 };
     if (filters.sort === "desc") sortOption = { name: -1 };
 
-    const products = await ProductModel.find(query).sort(sortOption);
-    return products.map(serialize);
+    const totalDocs = await ProductModel.countDocuments(query);
+    const products = await ProductModel.find(query)
+        .sort(sortOption)
+        .skip(skip)
+        .limit(limit);
+
+    return {
+        products: products.map(serialize),
+        totalPages: Math.ceil(totalDocs / limit),
+        currentPage: page
+    };
 }
 
 export async function getTrendingProducts(): Promise<Product[]> {

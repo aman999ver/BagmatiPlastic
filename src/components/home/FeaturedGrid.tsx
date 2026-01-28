@@ -24,13 +24,7 @@ export default function FeaturedGrid() {
 
     return (
         <section className="container" style={{ padding: "4rem 1rem", paddingBottom: "0" }}>
-            <h2 style={{
-                fontSize: "2rem",
-                marginBottom: "2rem",
-                color: "var(--foreground)",
-                borderLeft: "5px solid var(--accent, #FFC107)", // Different color for distinction
-                paddingLeft: "1rem"
-            }}>
+            <h2 className={styles.heading}>
                 Featured Products
             </h2>
 

@@ -1,85 +1,269 @@
 .footer {
-    background-color: var(--footer-bg);
-    padding: 4rem 1rem 2rem;
-    margin-top: auto;
-    border-top: 1px solid var(--border-color);
+    background-color: #FFF3F3;
+    /* Pinkish background */
+    padding: 2rem 1rem 1rem;
+    font-family: sans-serif;
+    font-size: 0.85rem;
+    color: #333;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
-.topSection {
+.logoSection {
+    margin-bottom: 2rem;
+}
+
+.mainGrid {
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: space-between;
     margin-bottom: 3rem;
+    align-items: flex-start;
 }
 
-@media (min-width: 768px) {
-    .topSection {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-}
-
-.brandColumn {
+.column {
     flex: 1;
-    max-width: 300px;
+    min-width: 150px;
 }
 
-.brandLogo {
-    margin-bottom: 1rem;
-    display: block;
-}
-
-.brandDesc {
-    color: #555;
-    font-size: 0.95rem;
-    line-height: 1.6;
+.productsWrapper {
+    flex: 3;
+    min-width: 400px;
 }
 
 .productsGrid {
-    flex: 2;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    display: flex;
     gap: 2rem;
+    flex-wrap: wrap;
 }
 
-.column h3 {
-    color: var(--primary);
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
+.subCol {
+    flex: 1;
+    min-width: 120px;
+}
+
+.headingStatic {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+}
+
+/* Category Blocks */
+.categoryBlock {
+    margin-bottom: 1.5rem;
+}
+
+.categoryTitle {
+    color: #F44336;
+    /* Brand Pink */
     font-weight: 700;
-    border-bottom: 2px solid rgba(252, 26, 79, 0.1);
-    padding-bottom: 0.5rem;
-    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
 }
 
-.linkList {
+.itemList,
+.companyList,
+.seriesList {
     list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.itemList li,
+.seriesList li {
+    margin-bottom: 0.25rem;
+}
+
+.itemList a,
+.seriesList a {
+    color: #444;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-size: 0.85rem;
+}
+
+.itemList a:hover,
+.seriesList a:hover,
+.companyList a:hover {
+    color: #F44336;
+}
+
+/* Company List Specifics */
+.companyList li {
+    margin-bottom: 0.8rem;
+}
+
+.companyList a {
+    color: #F44336;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* Series Column */
+.seriesLink {
+    color: #F44336 !important;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Contact Block */
+.contactBlock {
+    margin-bottom: 1.5rem;
+}
+
+.contactLabel {
+    color: #F44336;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.contactBlock p {
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 0.2rem;
+}
+
+/* Simple Links (Baby, Hanger etc) */
+.simpleLinks {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    margin-top: 1rem;
 }
 
-.linkList a {
-    color: #666;
+.pinkLink {
+    color: #F44336;
+    font-weight: 700;
+    text-decoration: none;
     font-size: 0.9rem;
-    transition: color 0.2s;
 }
 
-.linkList a:hover {
-    color: var(--primary);
-    padding-left: 5px;
+/* Bottom Bar */
+.bottomBar {
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: #888;
 }
 
-.copyright {
-    text-align: center;
-    padding-top: 2rem;
-    border-top: 1px solid #e0dbdb;
+.legalLinks {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.legalLinks a {
     color: #777;
-    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.legalLinks a:hover {
+    color: #F44336;
+}
+
+@media (max-width: 1024px) {
+    .mainGrid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    /* DOM: Company, Products, Series, Contact */
+
+    .column:nth-child(1) {
+        /* Company */
+        grid-column: span 1;
+        order: 1;
+    }
+
+    .column:nth-child(3) {
+        /* Series */
+        grid-column: span 1;
+        order: 2;
+    }
+
+    .productsWrapper {
+        /* Products */
+        grid-column: 1 / -1;
+        order: 3;
+    }
+
+    .column:nth-child(4) {
+        /* Contact */
+        grid-column: 1 / -1;
+        order: 4;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Simplify for mobile as requested: Only Company and Industry */
+
+    .productsWrapper {
+        display: none;
+    }
+
+    .column:nth-child(3) {
+        /* Series */
+        display: none;
+    }
+
+    .mainGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .column:nth-child(1) {
+        /* Company */
+        grid-column: auto;
+        order: 1;
+    }
+
+    .column:nth-child(4) {
+        /* Contact */
+        grid-column: auto;
+        /* Sit next to company */
+        order: 2;
+        min-width: 0;
+        /* Allow shrinking */
+    }
+
+    .productsGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    .subCol {
+        min-width: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .productsGrid {
+        grid-template-columns: 1fr;
+        /* Stack on very small screens */
+    }
+
+    .bottomBar {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .legalLinks {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
 }

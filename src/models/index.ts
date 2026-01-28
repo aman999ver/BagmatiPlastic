@@ -77,6 +77,12 @@ const InquirySchema = new mongoose.Schema({
     status: { type: String, enum: ['New', 'Read', 'Replied'], default: 'New' },
 }, { timestamps: true });
 
+const UserSchema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, default: "admin" },
+}, { timestamps: true });
+
 // Prevent overwrite models if already compiled
 export const Product = mongoose.models.Product || mongoose.model("Product", ProductSchema);
 export const Banner = mongoose.models.Banner || mongoose.model("Banner", BannerSchema);
@@ -88,3 +94,4 @@ export const Brand = mongoose.models.Brand || mongoose.model("Brand", BrandSchem
 export const FactoryImage = mongoose.models.FactoryImage || mongoose.model("FactoryImage", FactoryImageSchema);
 export const Certificate = mongoose.models.Certificate || mongoose.model("Certificate", CertificateSchema);
 export const Inquiry = mongoose.models.Inquiry || mongoose.model("Inquiry", InquirySchema);
+export const User = mongoose.models.User || mongoose.model("User", UserSchema);

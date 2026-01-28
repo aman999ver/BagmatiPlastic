@@ -32,56 +32,80 @@ export default function AdminInquiriesPage() {
     // Could add Mark as Read functionality here if API supported PUT
 
     return (
-        <div style={{ display: "flex" }}>
-            <AdminSidebar>
-                <div style={{ padding: "2rem", width: "100%" }}>
-                    <h1 style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "2rem" }}>Inquiries</h1>
+        <AdminSidebar>
+            <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+                <header style={{ marginBottom: "2rem" }}>
+                    <h1 style={{ fontSize: "1.8rem", fontWeight: "bold", color: "#1a1a1a" }}>Inquiries</h1>
+                    <p style={{ color: "#666", marginTop: "0.5rem" }}>Messages from the contact form.</p>
+                </header>
 
-                    <div style={{ background: "white", borderRadius: "12px", boxShadow: "0 2px 5px rgba(0,0,0,0.05)", overflow: "hidden" }}>
-                        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                            <thead style={{ background: "#f5f5f5", textAlign: "left" }}>
-                                <tr>
-                                    <th style={{ padding: "1rem" }}>Date</th>
-                                    <th style={{ padding: "1rem" }}>Name</th>
-                                    <th style={{ padding: "1rem" }}>Email</th>
-                                    <th style={{ padding: "1rem" }}>Company</th>
-                                    <th style={{ padding: "1rem" }}>Message</th>
-                                    <th style={{ padding: "1rem" }}>Actions</th>
+                <div style={{ background: "white", borderRadius: "16px", boxShadow: "0 4px 20px rgba(0,0,0,0.03)", overflow: "hidden", border: "1px solid #f0f0f0" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                        <thead style={{ background: "#f9fafb", borderBottom: "1px solid #eee" }}>
+                            <tr>
+                                <th style={{ padding: "1.2rem 1.5rem", textAlign: "left", fontSize: "0.85rem", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>Date</th>
+                                <th style={{ padding: "1.2rem 1.5rem", textAlign: "left", fontSize: "0.85rem", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>From</th>
+                                <th style={{ padding: "1.2rem 1.5rem", textAlign: "left", fontSize: "0.85rem", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>Contact Info</th>
+                                <th style={{ padding: "1.2rem 1.5rem", textAlign: "left", fontSize: "0.85rem", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>Message</th>
+                                <th style={{ padding: "1.2rem 1.5rem", textAlign: "right", fontSize: "0.85rem", textTransform: "uppercase", color: "#666", fontWeight: "600" }}>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {inquiries.map((inquiry) => (
+                                <tr key={inquiry._id} style={{ borderBottom: "1px solid #f5f5f5", transition: "background 0.2s" }} className="hover:bg-gray-50">
+                                    <td style={{ padding: "1.5rem", color: "#666", fontSize: "0.9rem", whiteSpace: "nowrap", verticalAlign: "top" }}>
+                                        {new Date(inquiry.createdAt || Date.now()).toLocaleDateString()}
+                                        <div style={{ fontSize: "0.8rem", color: "#999", marginTop: "0.2rem" }}>
+                                            {new Date(inquiry.createdAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        </div>
+                                    </td>
+                                    <td style={{ padding: "1.5rem", verticalAlign: "top" }}>
+                                        <div style={{ fontWeight: "600", color: "#333", marginBottom: "0.2rem" }}>{inquiry.firstName} {inquiry.lastName}</div>
+                                        {inquiry.company && (
+                                            <div style={{ fontSize: "0.85rem", color: "#666", background: "#f0f0f0", display: "inline-block", padding: "2px 8px", borderRadius: "10px" }}>
+                                                {inquiry.company}
+                                            </div>
+                                        )}
+                                    </td>
+                                    <td style={{ padding: "1.5rem", verticalAlign: "top" }}>
+                                        <a href={`mailto:${inquiry.email}`} style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none", color: "var(--primary)", fontWeight: "500", fontSize: "0.95rem" }}>
+                                            <Mail size={14} />
+                                            {inquiry.email}
+                                        </a>
+                                        {/* Phone could go here if available */}
+                                    </td>
+                                    <td style={{ padding: "1.5rem", maxWidth: "400px", verticalAlign: "top" }}>
+                                        <div style={{ background: "#fafafa", padding: "1rem", borderRadius: "8px", border: "1px solid #eee", fontSize: "0.95rem", color: "#444", lineHeight: "1.6" }}>
+                                            {inquiry.message}
+                                        </div>
+                                    </td>
+                                    <td style={{ padding: "1.5rem", textAlign: "right", verticalAlign: "top" }}>
+                                        <button
+                                            onClick={() => handleDelete(inquiry._id)}
+                                            style={{
+                                                padding: "0.6rem", color: "#d32f2f", background: "#fff0f0",
+                                                border: "none", borderRadius: "8px", cursor: "pointer",
+                                                transition: "all 0.2s"
+                                            }}
+                                            title="Delete Inquiry"
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {inquiries.map((inquiry) => (
-                                    <tr key={inquiry._id} style={{ borderBottom: "1px solid #eee" }}>
-                                        <td style={{ padding: "1rem", color: "#666", fontSize: "0.9rem", whiteSpace: "nowrap" }}>
-                                            {new Date(inquiry.createdAt).toLocaleDateString()}
-                                        </td>
-                                        <td style={{ padding: "1rem", fontWeight: "500" }}>{inquiry.firstName} {inquiry.lastName}</td>
-                                        <td style={{ padding: "1rem", color: "#1976D2" }}>
-                                            <a href={`mailto:${inquiry.email}`} style={{ textDecoration: "none", color: "inherit" }}>{inquiry.email}</a>
-                                        </td>
-                                        <td style={{ padding: "1rem", color: "#666" }}>{inquiry.company || "-"}</td>
-                                        <td style={{ padding: "1rem", maxWidth: "300px" }}>
-                                            <p style={{ margin: 0, fontSize: "0.9rem", lineHeight: "1.5", maxHeight: "60px", overflow: "hidden", textOverflow: "ellipsis" }} title={inquiry.message}>
-                                                {inquiry.message}
-                                            </p>
-                                        </td>
-                                        <td style={{ padding: "1rem" }}>
-                                            <button onClick={() => handleDelete(inquiry._id)} style={{ padding: "0.5rem", color: "#F44336", background: "none", border: "none", cursor: "pointer" }} title="Delete">
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                                {inquiries.length === 0 && (
-                                    <tr>
-                                        <td colSpan={6} style={{ padding: "2rem", textAlign: "center", color: "#999" }}>No inquiries found.</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                            ))}
+                            {inquiries.length === 0 && (
+                                <tr>
+                                    <td colSpan={5} style={{ padding: "4rem", textAlign: "center", color: "#888" }}>
+                                        <MailOpen size={48} style={{ opacity: 0.1, marginBottom: "1rem" }} />
+                                        <p>No new inquiries found.</p>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
-            </AdminSidebar>
-        </div>
+            </div>
+        </AdminSidebar>
     );
 }

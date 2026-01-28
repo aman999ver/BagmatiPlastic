@@ -15,10 +15,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Bagmati Plastic - Premium Plastic Products in Nepal",
+  title: "Bagmati Plastic",
   description: "Explore Bagmati Plastic's wide range of high-quality plastic products including buckets, mugs, and household items. Durable and stylish solutions for your home.",
   icons: {
-    icon: "/logotrf.png",
+    icon: "/mobilelogo.png",
   },
 };
 

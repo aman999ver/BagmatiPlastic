@@ -161,7 +161,7 @@ export default function ContactPage() {
 
                         <div style={{ width: "100%", height: "300px", background: "#eee", borderRadius: "8px", overflow: "hidden" }}>
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.222384705596!2d85.32623197616995!3d27.71041692535567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19090684f83b%3A0x6bde1c7657929bd4!2sFour%20Square%20Complex!5e0!3m2!1sen!2snp!4v1701234567890!5m2!1sen!2snp"
+                                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d883.0190699784918!2d85.326988!3d27.714931!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb190e510e7287%3A0xaf45751e115c7f95!2z4KSs4KS-4KSX4KSu4KSk4KS_IOCkquCljeCksuCkvuCkt-CljeKAjeCkn-Ckv-CklSDgpIfgpKPgpY3gpKHgpLfgpY3gpKHgpLfgpY3gpLDgpL_gpJwg4KSq4KWN4KSw4KS-LiDgpLLgpL8u!5e0!3m2!1sen!2snp!4v1769580190789!5m2!1sen!2snp"
                                 width="100%"
                                 height="100%"
                                 style={{ border: 0 }}
@@ -181,7 +181,7 @@ export default function ContactPage() {
 
                         <div style={{ width: "100%", height: "300px", background: "#eee", borderRadius: "8px", overflow: "hidden" }}>
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3571.289052643594!2d87.26620937611867!3d26.47863197886475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef744641e7d01d%3A0xb35345691456w9!2sBiratnagar!5e0!3m2!1sen!2snp!4v1701234567891"
+                                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d28584.014770310623!2d87.274693!3d26.423417!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef75bb8682a7cd%3A0x9eee5fef118bdd84!2sBagmati%20Plastic%20Industries%20Pvt.%20Ltd.!5e0!3m2!1sen!2snp!4v1769580232745!5m2!1sen!2snp"
                                 width="100%"
                                 height="100%"
                                 style={{ border: 0 }}

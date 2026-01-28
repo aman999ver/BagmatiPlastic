@@ -1,14 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
-import { LayoutDashboard, ShoppingBag, PlusCircle, Image as ImageIcon, Grid, LogOut, Layers, Tag, FileText, Star, Award, Mail } from "lucide-react";
+import { LayoutDashboard, ShoppingBag, PlusCircle, Image as ImageIcon, Grid, LogOut, Layers, Tag, FileText, Star, Award, Mail, Menu, X } from "lucide-react";
 import styles from "./AdminLayout.module.css";
 
 export default function AdminSidebar({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const router = useRouter();
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     const handleLogout = async () => {
         // In a real app, call an API to clear the cookie
@@ -37,7 +39,26 @@ export default function AdminSidebar({ children }: { children: React.ReactNode }
 
     return (
         <div className={styles.layout}>
-            <aside className={styles.sidebar}>
+            {/* Mobile Header */}
+            <div className={styles.mobileHeader}>
+                <div className={styles.mobileLogo}>
+                    <Image
+                        src="/mobilelogo.png"
+                        alt="Bagmati Plastic"
+                        width={40}
+                        height={40}
+                        style={{ objectFit: "contain" }}
+                    />
+                </div>
+                <button
+                    className={styles.menuBtn}
+                    onClick={() => setIsMobileOpen(!isMobileOpen)}
+                >
+                    {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </div>
+
+            <aside className={`${styles.sidebar} ${isMobileOpen ? styles.open : ""}`}>
                 <div className={styles.logo}>
                     <Image
                         src="/bagmati-logo.png"

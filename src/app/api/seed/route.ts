@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
-import { Product, Banner, FeaturedItem } from "@/models";
+import { Product, Banner, FeaturedItem, User } from "@/models";
 import productsData from "@/data/products.json";
 import siteContent from "@/data/site-content.json";
 
@@ -52,6 +52,20 @@ export async function GET() {
             link: f.link
         }));
         await FeaturedItem.insertMany(featured);
+
+        // 4. Seed Admin User (If not exists)
+        // We will upsert to ensure password is correct or just recreate
+        // For simplicity in this fix-u-moron context, let's delete and recreate specific admin or all users
+        /* 
+           NOTE: Using plain text password as requested for simplicity without external libs. 
+           In production, use bcrypt.
+        */
+        await User.deleteMany({ username: "admin bibek" });
+        await User.create({
+            username: "admin bibek",
+            password: "admin@bibek12", // Ideally hash this
+            role: "admin"
+        });
 
         return NextResponse.json({ success: true, message: "Database seeded successfully!" });
     } catch (error: any) {
